@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { getPostsApi } from '../../Api/Posts';
+import { editPostsApi, getPostsApi } from '../../Api/Posts';
 import { Button, Card, CardActions, CardContent, Typography } from '@material-ui/core';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 
 export default function Post() {
+    const history = useHistory();
 
     //* state
     const [posts, setPosts] = useState([]);
@@ -16,6 +17,15 @@ export default function Post() {
         const posts = await getPostsApi(axios);
         if (posts.statusCode === 200) {
             setPosts(posts.data)
+        }
+        else {
+            alert('error !')
+        }
+    }
+    const editPost = async (id) => {
+        const post = await editPostsApi(id, axios);
+        if (post.statusCode === 200) {
+            history.push(`/posts/${id}`)
         }
         else {
             alert('error !')
@@ -32,6 +42,14 @@ export default function Post() {
             fn()
         }, []
     )
+
+    //* function
+
+    function handleEdit(id) {
+        editPost(id)
+    }
+
+
 
     return (
 
@@ -54,7 +72,11 @@ export default function Post() {
 
                     <CardActions>
                         {/* <Button color='primary' size="small">Edit</Button> */}
-                        <Link to={`/posts/${post.id}`}>Edit</Link>
+                        <Button onClick={() => handleEdit(post.id)}
+                        // to={`/posts/${post.id}`}
+                        >
+                            Edit
+                        </Button>
                     </CardActions>
                 </Card>
             </div>

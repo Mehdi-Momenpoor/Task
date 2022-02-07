@@ -9,11 +9,11 @@ export default function EditPost() {
     return (
         <div>
             <div style={{ marginBottom: '10px', padding: '10px 20px' }}>
-                <AddPosts statement={state.statement} />
+                <AddPosts statement={state.statement} posts={state.posts} />
             </div>
 
             <div style={{ width: '275px', margin: '10px 0' }}>
-                <PostCard   mode={"edit"} post={state.selectedPost} />
+                <PostCard mode={"edit"} post={state.selectedPost} />
             </div>
 
         </div>

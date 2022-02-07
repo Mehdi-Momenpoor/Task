@@ -2,21 +2,43 @@ import React, { useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { ACTIONS } from '../../State/GlobalReducer';
+import { SubmitEditPostsApi } from '../../Api/Posts'
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
-export default function AddPosts({ statement }) {
+export default function AddPosts({ statement,posts }) {
 
-    // const [statement, setStatement] = useState({
-    //     title: bodyStatement,
-    //     body: bodyStatement
-    // });
     const dispatch = useDispatch();
+    const history = useHistory();
 
     function handleChange(e) {
-        // setStatement({ [e.target.name]: e.target.value })
 
         dispatch({ type: ACTIONS.ON_STATEMENT, payload: { name: e.target.name, value: e.target.value } });
     }
 
+    async function SubmitEditPost() {
+        const result = await SubmitEditPostsApi(statement, axios)
+        console.log(result);
+        if (result.statusCode === 200) {
+            history.push("/");
+
+            const copyPosts = [...posts];
+
+            const postIndex = copyPosts.findIndex(post => post.id === statement.id);
+
+            if (postIndex !== -1) {
+                copyPosts.splice(postIndex, 1, statement);
+                dispatch({ type: ACTIONS.ON_POSTS, payload: copyPosts })
+                
+            }
+
+        }
+    }
+
+    function handleSubmit() {
+        SubmitEditPost();
+
+    }
 
 
     return (
@@ -39,7 +61,7 @@ export default function AddPosts({ statement }) {
                 style={{ marginLeft: 5 }}
             />
 
-            <Button color='primary'>submit</Button>
+            <Button onClick={handleSubmit} color='primary'>submit</Button>
             <Button color='secondary'>cancel</Button>
         </form>
     )

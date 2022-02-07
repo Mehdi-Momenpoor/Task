@@ -5,6 +5,8 @@ export const GlobalReducer = (state = initialState, action) => {
 
         case ACTIONS.ON_STATEMENT:
             return editStatementHandler(state, action.payload);
+
+        case ACTIONS.ON_POSTS: return onPostsHandler(state, action.payload);
         default:
             return state;
     }
@@ -14,11 +16,23 @@ export const GlobalReducer = (state = initialState, action) => {
 
 export const ACTIONS = {
     EDIT_TARGET_POST: 'EDIT_TARGET_POST',
-    ON_STATEMENT: 'ON_STATEMENT'
+    ON_STATEMENT: 'ON_STATEMENT',
+    ON_POSTS: "ON_POSTS"
 }
 
 export const HANDLERS = {
     [ACTIONS.EDIT_TARGET_POST]: editPostHandler,
+
+}
+
+function onPostsHandler(state, payload) {
+
+    return {
+        ...state,
+        posts: payload,
+        statement:initialState.statement
+
+    }
 
 }
 
@@ -42,5 +56,6 @@ const initialState = {
     statement: {
         title: '',
         body: ''
-    }
+    },
+    posts: [],
 }

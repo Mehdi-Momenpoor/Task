@@ -4,7 +4,7 @@ import { editPostsApi, getPostsApi } from '../../Api/Posts';
 import { Button, Card, CardActions, CardContent, Typography } from '@material-ui/core';
 import { Link, useHistory } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ACTIONS } from '../../State/GlobalReducer';
 import PostCard from '../Card';
 
@@ -13,15 +13,14 @@ export default function Post() {
     const history = useHistory();
 
     //* state
-    const [posts, setPosts] = useState([]);
     const dispatch = useDispatch();
+    const { posts } = useSelector((state) => state)
 
-    console.log(posts);
     //* async function
     const getPosts = async () => {
         const posts = await getPostsApi(axios);
         if (posts.statusCode === 200) {
-            setPosts(posts.data)
+            dispatch({ type: ACTIONS.ON_POSTS, payload: posts.data })
         }
         else {
             alert('error !')
@@ -44,7 +43,10 @@ export default function Post() {
     useEffect(
         () => {
             const fn = async () => {
-                await getPosts();
+                if (posts?.length === 0) {
+
+                    await getPosts();
+                }
             }
             fn()
         }, []
@@ -63,30 +65,6 @@ export default function Post() {
         posts.map(post =>
             <div key={post.id} style={{ width: '275px', margin: '10px 0' }}>
                 <PostCard mode={"show"} onEdit={handleEdit} post={post} />
-
-                {/* <Card style={{ minWidth: '275px' }}>
-                    <CardContent>
-                        <Typography
-                            style={{ fontSize: 14, }}
-                            color="textSecondary"
-                            gutterBottom
-                        >
-                            {post.title}
-                        </Typography>
-
-                        <Typography variant="body2" component="p">
-                            {post.body}
-                        </Typography>
-                    </CardContent>
-
-                    <CardActions>
-                        <Button onClick={() => handleEdit(post.id)}
-                        // to={`/posts/${post.id}`}
-                        >
-                            Edit
-                        </Button>
-                    </CardActions>
-                </Card> */}
             </div>
         )
     )

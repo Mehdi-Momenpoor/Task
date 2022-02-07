@@ -1,92 +1,29 @@
 import React from 'react';
-import AddPosts from './Api/Components/Posts/AddPosts';
-import Post from './Api/Components/Posts/Post';
+import DisplayPosts from './Components/Posts/DisplayPosts';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 function App() {
 
   return (
-    <div>
+    <Router>
 
-      <div style={{ marginBottom: '10px', padding: '10px 20px' }}>
-        <AddPosts />
-      </div>
+      <Switch>
+        <Route path='/' exact>
+          <DisplayPosts />
+        </Route>
 
-      <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
+        <Route path={`post/:id`}>
+          <h1>this is for edit</h1>
+        </Route>
 
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-      </div>
-    </div>
+      </Switch>
+
+    </Router>
   );
 }
 

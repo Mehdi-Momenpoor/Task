@@ -4,12 +4,17 @@ import { editPostsApi, getPostsApi } from '../../Api/Posts';
 import { Button, Card, CardActions, CardContent, Typography } from '@material-ui/core';
 import { Link, useHistory } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+import { ACTIONS } from '../../State/GlobalReducer';
+import PostCard from '../Card';
+
 
 export default function Post() {
     const history = useHistory();
 
     //* state
     const [posts, setPosts] = useState([]);
+    const dispatch = useDispatch();
 
     console.log(posts);
     //* async function
@@ -25,7 +30,9 @@ export default function Post() {
     const editPost = async (id) => {
         const post = await editPostsApi(id, axios);
         if (post.statusCode === 200) {
-            history.push(`/posts/${id}`)
+
+            history.push(`/edit`)
+            dispatch({ type: ACTIONS.EDIT_TARGET_POST, payload: { postData: post.data } })
         }
         else {
             alert('error !')
@@ -55,7 +62,9 @@ export default function Post() {
 
         posts.map(post =>
             <div key={post.id} style={{ width: '275px', margin: '10px 0' }}>
-                <Card style={{ minWidth: '275px' }}>
+                <PostCard mode={"show"} onEdit={handleEdit} post={post} />
+
+                {/* <Card style={{ minWidth: '275px' }}>
                     <CardContent>
                         <Typography
                             style={{ fontSize: 14, }}
@@ -71,14 +80,13 @@ export default function Post() {
                     </CardContent>
 
                     <CardActions>
-                        {/* <Button color='primary' size="small">Edit</Button> */}
                         <Button onClick={() => handleEdit(post.id)}
                         // to={`/posts/${post.id}`}
                         >
                             Edit
                         </Button>
                     </CardActions>
-                </Card>
+                </Card> */}
             </div>
         )
     )

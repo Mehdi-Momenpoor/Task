@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { ACTIONS } from '../../State/GlobalReducer';
 
-export default function AddPosts() {
+export default function AddPosts({ statement }) {
 
-    const [statement, setStatement] = useState({
-        title: '',
-        body: ''
-    });
+    // const [statement, setStatement] = useState({
+    //     title: bodyStatement,
+    //     body: bodyStatement
+    // });
+    const dispatch = useDispatch();
 
     function handleChange(e) {
-        setStatement({ [e.target.name]: e.target.value })
+        // setStatement({ [e.target.name]: e.target.value })
+
+        dispatch({ type: ACTIONS.ON_STATEMENT, payload: { name: e.target.name, value: e.target.value } });
     }
 
 

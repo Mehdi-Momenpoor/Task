@@ -6,8 +6,14 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { useSelector } from "react-redux"
+import EditPost from './Components/Posts/EditPost';
 
 function App() {
+
+  const state = useSelector((state) => state)
+  
+  console.log(state);
 
   return (
     <Router>
@@ -17,8 +23,8 @@ function App() {
           <DisplayPosts />
         </Route>
 
-        <Route path={`post/:id`}>
-          <h1>this is for edit</h1>
+        <Route path={`/edit`}>
+          <EditPost />
         </Route>
 
       </Switch>

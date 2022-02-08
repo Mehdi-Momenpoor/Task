@@ -1,18 +1,29 @@
 import React from 'react';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, makeStyles } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { ACTIONS } from '../../State/GlobalReducer';
 import { SubmitEditPostsApi } from '../../Api/Posts'
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
+const useStyles = makeStyles(theme => ({
+    root: {
+        marginBottom: '10px',
+        padding: '10px 20px'
+    },
+    margin: {
+        marginLeft: 5
+    }
+
+}));
+
 export default function AddPosts({ statement, posts }) {
 
 
-    console.log('statement', statement);
     //* hook
     const dispatch = useDispatch();
     const history = useHistory();
+    const classes = useStyles();
 
     //* async function 
     async function submitEditPost() {
@@ -50,7 +61,7 @@ export default function AddPosts({ statement, posts }) {
 
 
     return (
-        <div style={{ marginBottom: '10px', padding: '10px 20px' }}>
+        <div className={classes.root}>
             <form>
                 <TextField
                     value={statement.title}
@@ -65,7 +76,7 @@ export default function AddPosts({ statement, posts }) {
                     maxRows={4}
                     placeholder='body'
                     name="body"
-                    style={{ marginLeft: 5 }}
+                    className={classes.margin}
                 />
 
                 <Button onClick={handleSubmit} color='primary'>submit</Button>

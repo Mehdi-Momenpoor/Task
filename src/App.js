@@ -9,10 +9,10 @@ import {
 import { useSelector } from "react-redux"
 import EditPost from './Components/Posts/EditPost';
 
-function App() {
+export default function App() {
 
   const state = useSelector((state) => state)
-  
+
   console.log(state);
 
   return (
@@ -33,4 +33,3 @@ function App() {
   );
 }
 
-export default App;

@@ -1,14 +1,32 @@
-import { Button, Card as MuiCard, CardActions, CardContent, Typography } from '@material-ui/core';
 import React from 'react';
+import { Button, Card as MuiCard, CardActions, CardContent, makeStyles, Typography } from '@material-ui/core';
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        width: '275px',
+        margin: '10px 0',
+    },
+
+    cardWidth: {
+        minWidth: '275px'
+    },
+    fontSize :{
+        fontSize: 14,
+    },
+
+}));
 
 
 export default function PostCard({ mode, onEdit, post }) {
+
+    const classes = useStyles();
+
     return (
-        <div style={{ width: '275px', margin: '10px 0' }}>
-            <MuiCard style={{ minWidth: '275px' }}>
+        <div className={classes.root} >
+            <MuiCard className={classes.cardWidth} >
                 <CardContent>
                     <Typography
-                        style={{ fontSize: 14, }}
+                        className={classes.fontSize}
                         color="textSecondary"
                         gutterBottom
                     >

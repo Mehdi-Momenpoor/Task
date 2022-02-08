@@ -8,17 +8,6 @@ const initialState = {
 }
 
 export const GlobalReducer = (state = initialState, action) => {
-    // switch (action.type) {
-    //     case ACTIONS.EDIT_TARGET_POST:
-    //         return editPostHandler(state, action.payload)
-
-    //     case ACTIONS.ON_STATEMENT:
-    //         return editStatementHandler(state, action.payload);
-
-    //     case ACTIONS.ON_POSTS: return onPostsHandler(state, action.payload);
-    //     default:
-    //         return state;
-    // }
 
     return (HANDLERS[action.type] || (() => state))(state, action.payload)
 }

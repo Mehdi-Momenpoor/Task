@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { ACTIONS } from '../../State/GlobalReducer';
@@ -6,63 +6,71 @@ import { SubmitEditPostsApi } from '../../Api/Posts'
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-export default function AddPosts({ statement,posts }) {
+export default function AddPosts({ statement, posts }) {
 
+
+    console.log('statement', statement);
+    //* hook
     const dispatch = useDispatch();
     const history = useHistory();
 
-    function handleChange(e) {
-
-        dispatch({ type: ACTIONS.ON_STATEMENT, payload: { name: e.target.name, value: e.target.value } });
-    }
-
-    async function SubmitEditPost() {
+    //* async function 
+    async function submitEditPost() {
         const result = await SubmitEditPostsApi(statement, axios)
         console.log(result);
         if (result.statusCode === 200) {
             history.push("/");
 
             const copyPosts = [...posts];
-
             const postIndex = copyPosts.findIndex(post => post.id === statement.id);
 
             if (postIndex !== -1) {
                 copyPosts.splice(postIndex, 1, statement);
                 dispatch({ type: ACTIONS.ON_POSTS, payload: copyPosts })
-                
             }
 
         }
     }
 
+    //* function 
     function handleSubmit() {
-        SubmitEditPost();
+        if (statement.id) {
+            //* it's edit mode */
+            submitEditPost();
+        }
+        else {
+            //* it's add mode */
+            // code here...
+        }
+    }
 
+    function handleChange(e) {
+        dispatch({ type: ACTIONS.ON_STATEMENT, payload: { name: e.target.name, value: e.target.value } });
     }
 
 
     return (
-        <form>
-            <TextField
-                value={statement.title}
-                onChange={handleChange}
-                placeholder='title'
-                name="title"
+        <div style={{ marginBottom: '10px', padding: '10px 20px' }}>
+            <form>
+                <TextField
+                    value={statement.title}
+                    onChange={handleChange}
+                    placeholder='title'
+                    name="title"
+                />
+                <TextField
+                    value={statement.body}
+                    onChange={handleChange}
+                    multiline
+                    maxRows={4}
+                    placeholder='body'
+                    name="body"
+                    style={{ marginLeft: 5 }}
+                />
 
-            />
-
-            <TextField
-                value={statement.body}
-                onChange={handleChange}
-                multiline
-                maxRows={4}
-                placeholder='body'
-                name="body"
-                style={{ marginLeft: 5 }}
-            />
-
-            <Button onClick={handleSubmit} color='primary'>submit</Button>
-            <Button color='secondary'>cancel</Button>
-        </form>
+                <Button onClick={handleSubmit} color='primary'>submit</Button>
+                <Button color='secondary'>cancel</Button>
+            </form>
+        </div>
     )
 }

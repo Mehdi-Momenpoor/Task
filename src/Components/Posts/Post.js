@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { editPostsApi, getPostsApi } from '../../Api/Posts';
-import { Button, Card, CardActions, CardContent, Typography } from '@material-ui/core';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { ACTIONS } from '../../State/GlobalReducer';
@@ -10,6 +9,9 @@ import PostCard from '../Card';
 
 
 export default function Post() {
+
+
+    //* hook
     const history = useHistory();
 
     //* state
@@ -26,7 +28,9 @@ export default function Post() {
             alert('error !')
         }
     }
+    
     const editPost = async (id) => {
+        
         const post = await editPostsApi(id, axios);
         if (post.statusCode === 200) {
 
@@ -44,7 +48,6 @@ export default function Post() {
         () => {
             const fn = async () => {
                 if (posts?.length === 0) {
-
                     await getPosts();
                 }
             }
@@ -53,7 +56,6 @@ export default function Post() {
     )
 
     //* function
-
     function handleEdit(id) {
         editPost(id)
     }
@@ -61,11 +63,6 @@ export default function Post() {
 
 
     return (
-
-        posts.map(post =>
-            <div key={post.id} style={{ width: '275px', margin: '10px 0' }}>
-                <PostCard mode={"show"} onEdit={handleEdit} post={post} />
-            </div>
-        )
+        posts.map(post => <PostCard key={post.id} mode={"show"} onEdit={handleEdit} post={post} />)
     )
 }

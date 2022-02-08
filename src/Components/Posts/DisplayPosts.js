@@ -9,9 +9,7 @@ export default function DisplayPosts() {
 
     return (
         <>
-            <div style={{ marginBottom: '10px', padding: '10px 20px' }}>
-                <AddPosts  statement={state.statement} posts={state.posts} />
-            </div>
+            <AddPosts statement={state.statement} posts={state.posts} />
 
             <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
                 <Post />
